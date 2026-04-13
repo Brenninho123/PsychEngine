@@ -88,13 +88,13 @@ class Controls
 	//Gamepad & Keyboard stuff
 	public var keyboardBinds:Map<String, Array<FlxKey>>;
 	public var gamepadBinds:Map<String, Array<FlxGamepadInputID>>;
-	public var mobileBinds:Map<String, Array<FlxMobileInputID>>;
+	#if mobile public var mobileBinds:Map<String, Array<FlxMobileInputID>>; #end
 	public function justPressed(key:String)
 	{
 		var result:Bool = (FlxG.keys.anyJustPressed(keyboardBinds[key]) == true);
 		if(result) controllerMode = false;
 
-		return result || _myGamepadJustPressed(gamepadBinds[key]) == true || hitboxJustPressed(mobileBinds[key]) == true || mobilePadJustPressed(mobileBinds[key]) == true;
+		return result || _myGamepadJustPressed(gamepadBinds[key]) == true #if mobile || hitboxJustPressed(mobileBinds[key]) == true || mobilePadJustPressed(mobileBinds[key]) == true #end;
 	}
 
 	public function pressed(key:String)
@@ -102,7 +102,7 @@ class Controls
 		var result:Bool = (FlxG.keys.anyPressed(keyboardBinds[key]) == true);
 		if(result) controllerMode = false;
 
-		return result || _myGamepadPressed(gamepadBinds[key]) == true || hitboxPressed(mobileBinds[key]) == true || mobilePadPressed(mobileBinds[key]) == true;
+		return result || _myGamepadPressed(gamepadBinds[key]) == true #if mobile || hitboxPressed(mobileBinds[key]) == true || mobilePadPressed(mobileBinds[key]) == true #end;
 	}
 
 	public function justReleased(key:String)
@@ -110,7 +110,7 @@ class Controls
 		var result:Bool = (FlxG.keys.anyJustReleased(keyboardBinds[key]) == true);
 		if(result) controllerMode = false;
 
-		return result || _myGamepadJustReleased(gamepadBinds[key]) == true || hitboxJustReleased(mobileBinds[key]) == true || mobilePadJustReleased(mobileBinds[key]) == true;
+		return result || _myGamepadJustReleased(gamepadBinds[key]) == true #if mobile || hitboxJustReleased(mobileBinds[key]) == true || mobilePadJustReleased(mobileBinds[key]) == true #end;
 	}
 
 	public var controllerMode:Bool = false;
@@ -160,6 +160,7 @@ class Controls
 		return false;
 	}
 	
+	#if mobile
 	public var isInSubstate:Bool = false;
 	public var requested(get, default):Dynamic; // is set to MusicBeatState or MusicBeatSubstate when the constructor is called
 	public var gameplayRequest(get, default):Dynamic; // for PlayState and EditorPlayState (hitbox and virtualPad)
@@ -256,6 +257,7 @@ class Controls
 	{
 			return MusicBeatState.instance.hitbox;
 	}
+	#end
 
 	// IGNORE THESE
 	public static var instance:Controls;
@@ -263,6 +265,6 @@ class Controls
 	{
 		keyboardBinds = ClientPrefs.keyBinds;
 		gamepadBinds = ClientPrefs.gamepadBinds;
-		mobileBinds = ClientPrefs.mobileBinds;
+		#if mobile mobileBinds = ClientPrefs.mobileBinds; #end
 	}
 }

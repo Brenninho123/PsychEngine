@@ -125,6 +125,7 @@ class ClientPrefs {
 		'pause'			=> [START],
 		'reset'			=> [BACK]
 	];
+	#if mobile
 	public static var mobileBinds:Map<String, Array<FlxMobileInputID>> = [
 		'note_up'		=> [noteUP, UP2],
 		'note_left'		=> [noteLEFT, LEFT2],
@@ -141,9 +142,10 @@ class ClientPrefs {
 		'pause'			=> [NONE],
 		'reset'			=> [NONE]
 	];
+	#end
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 	public static var defaultButtons:Map<String, Array<FlxGamepadInputID>> = null;
-	public static var defaultMobileBinds:Map<String, Array<FlxMobileInputID>> = null;
+	#if mobile public static var defaultMobileBinds:Map<String, Array<FlxMobileInputID>> = null; #end
 
 	public static function resetKeys(controller:Null<Bool> = null) //Null = both, False = Keyboard, True = Controller
 	{
@@ -162,17 +164,17 @@ class ClientPrefs {
 	{
 		var keyBind:Array<FlxKey> = keyBinds.get(key);
 		var gamepadBind:Array<FlxGamepadInputID> = gamepadBinds.get(key);
-		var mobileBind:Array<FlxMobileInputID> = mobileBinds.get(key);
+		#if mobile var mobileBind:Array<FlxMobileInputID> = mobileBinds.get(key); #end
 		while(keyBind != null && keyBind.contains(NONE)) keyBind.remove(NONE);
 		while(gamepadBind != null && gamepadBind.contains(NONE)) gamepadBind.remove(NONE);
-		while(mobileBind != null && mobileBind.contains(NONE)) mobileBind.remove(NONE);
+		#if mobile while(mobileBind != null && mobileBind.contains(NONE)) mobileBind.remove(NONE); #end
 	}
 
 	public static function loadDefaultKeys()
 	{
 		defaultKeys = keyBinds.copy();
 		defaultButtons = gamepadBinds.copy();
-		defaultMobileBinds = mobileBinds.copy();
+		#if mobile defaultMobileBinds = mobileBinds.copy(); #end
 	}
 
 	public static function saveSettings() {
@@ -187,7 +189,7 @@ class ClientPrefs {
 		save.bind('controls_v3', CoolUtil.getSavePath());
 		save.data.keyboard = keyBinds;
 		save.data.gamepad = gamepadBinds;
-		save.data.mobile = mobileBinds;
+		#if mobile save.data.mobile = mobileBinds; #end
 		save.flush();
 		FlxG.log.add("Settings saved!");
 	}
@@ -256,12 +258,14 @@ class ClientPrefs {
 				for (control => keys in loadedControls)
 					if(gamepadBinds.exists(control)) gamepadBinds.set(control, keys);
 			}
+			#if mobile
 			if(save.data.mobile != null)
 			{
 				var loadedControls:Map<String, Array<FlxMobileInputID>> = save.data.mobile;
 				for (control => keys in loadedControls)
 					if(mobileBinds.exists(control)) mobileBinds.set(control, keys);
 			}
+			#end
 			reloadVolumeKeys();
 		}
 	}
