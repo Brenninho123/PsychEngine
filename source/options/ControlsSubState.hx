@@ -290,7 +290,7 @@ class ControlsSubState extends MusicBeatSubstate
 			}
 			if(FlxG.keys.justPressed.CONTROL || FlxG.gamepads.anyJustPressed(LEFT_SHOULDER) || FlxG.gamepads.anyJustPressed(RIGHT_SHOULDER)) swapMode();
 
-			if( #if mobile (FlxG.keys.justPressed.LEFT || virtualPad.buttonLeft.justPressed) || #end (FlxG.keys.justPressed.RIGHT || virtualPad.buttonRight.justPressed) || FlxG.gamepads.anyJustPressed(DPAD_LEFT) || FlxG.gamepads.anyJustPressed(DPAD_RIGHT) ||
+			if((FlxG.keys.justPressed.LEFT #if mobile || virtualPad.buttonLeft.justPressed #end) || (FlxG.keys.justPressed.RIGHT #if mobile || virtualPad.buttonRight.justPressed #end) || FlxG.gamepads.anyJustPressed(DPAD_LEFT) || FlxG.gamepads.anyJustPressed(DPAD_RIGHT) ||
 				FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_LEFT) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_RIGHT)) updateAlt(true);
 			
 			if((FlxG.keys.justPressed.UP #if mobile || virtualPad.buttonUp.justPressed #end) || FlxG.gamepads.anyJustPressed(DPAD_UP) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_UP)) updateText(-1);
