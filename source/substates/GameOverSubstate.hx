@@ -47,7 +47,7 @@ class GameOverSubstate extends MusicBeatSubstate
 	{
 		instance = this;
 		
-		controls.isInSubstate = true;
+		#if mobile controls.isInSubstate = true; #end
 
 		Conductor.songPosition = 0;
 
@@ -72,6 +72,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		
 		#if mobile
 		addVirtualPad(NONE, A_B);
+		addVirtualPadCamera();
 		#end
 
 		super.create();

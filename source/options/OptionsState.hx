@@ -81,7 +81,7 @@ class OptionsState extends MusicBeatState
 		#if DISCORD_ALLOWED
 		DiscordClient.changePresence("Options Menu", null);
 		#end
-		controls.isInSubstate = false;
+		#if mobile controls.isInSubstate = false; #end
 
 		#if mobile
 		removeVirtualPad();

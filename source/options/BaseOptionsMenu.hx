@@ -31,7 +31,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 	{
 		super();
 		
-		controls.isInSubstate = true;
+		#if mobile controls.isInSubstate = true; #end
 
 		if(title == null) title = 'Options';
 		if(rpcTitle == null) rpcTitle = 'Options Menu';
