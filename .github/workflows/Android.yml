@@ -3,6 +3,9 @@ name: Android Build
 on: 
   workflow_dispatch:
 
+env:
+  HXCPP_COMPILE_CACHE: ${{ github.workspace }}/.hxcpp_cache
+
 jobs:
   build:
     name: Android Build
@@ -19,16 +22,17 @@ jobs:
           java-version: '17'
 
       - name: Setup Haxe
-        uses: krdlab/setup-haxe@v2.0.2
+        uses: krdlab/setup-haxe@v3
         with:
           haxe-version: 4.3.2
 
-      - name: Setup and Restore Cache
+      - name: Restore Cache
         uses: actions/cache@v4
         with:
           key: cache-android-psych-${{ github.sha }}
           path: |
             .haxelib/
+            ${{ env:HXCPP_COMPILE_CACHE }}
             export/release/android/haxe/
             export/release/android/obj/
           restore-keys: |
@@ -50,7 +54,7 @@ jobs:
           haxelib run lime config ANDROID_SETUP true
 
       - name: Compile
-        run: haxelib run lime build android -release
+        run: haxelib run lime build android -release -Dnext
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
