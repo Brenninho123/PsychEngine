@@ -33,7 +33,6 @@ jobs:
         with:
           key: cache-android-psych-${{ github.sha }}
           path: |
-            .haxelib/
             ${{ env.HXCPP_COMPILE_CACHE }}
             export/release/android/haxe/
             export/release/android/obj/
@@ -54,6 +53,10 @@ jobs:
           haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_LATEST_HOME
           haxelib run lime config JAVA_HOME $JAVA_HOME
           haxelib run lime config ANDROID_SETUP true
+
+      - name: Create Compile Cache Directory
+        shell: bash
+        run: mkdir -p ${{ env.HXCPP_COMPILE_CACHE }}
 
       - name: Compile
         run: haxelib run lime build android -release -Dnext
@@ -85,7 +88,6 @@ jobs:
         with:
           key: cache-ios-psych-${{ github.sha }}
           path: |
-            .haxelib/
             ${{ env.HXCPP_COMPILE_CACHE }}
             export/release/ios/build/Release-iphoneos/
           restore-keys: |
@@ -96,7 +98,13 @@ jobs:
          haxelib install hmm --quiet
          haxelib run hmm setup --quiet
          haxelib run hmm install --quiet
+         haxelib remove lime
+         haxelib git lime https://github.com/FunkinCrew/lime 2fdc4b4f8460e9e36bd5ced9098af135072acb05 --quiet
          haxelib run lime rebuild hxcpp
+
+      - name: Create Compile Cache Directory
+        shell: bash
+        run: mkdir -p ${{ env.HXCPP_COMPILE_CACHE }}
 
       - name: Compile
         run: haxelib run lime build ios -nosign
@@ -138,7 +146,6 @@ jobs:
         with:
           key: cache-windows-psych-${{ github.sha }}
           path: |
-            .haxelib/
             ${{ env.HXCPP_COMPILE_CACHE }}
             export/release/windows/obj/
           restore-keys: |
@@ -150,6 +157,10 @@ jobs:
           haxelib run hmm setup
           haxelib run hmm install
           haxelib run lime rebuild hxcpp --quiet
+
+      - name: Create Compile Cache Directory
+        shell: bash
+        run: mkdir -p ${{ env.HXCPP_COMPILE_CACHE }}
 
       - name: Compile
         run: haxelib run lime build windows -release
@@ -186,7 +197,6 @@ jobs:
         with:
           key: cache-linux-psych-${{ github.sha }}
           path: |
-            .haxelib/
             ${{ env.HXCPP_COMPILE_CACHE }}
             export/release/linux/obj/
           restore-keys: |
@@ -198,6 +208,10 @@ jobs:
           haxelib run hmm setup
           haxelib run hmm install
           haxelib run lime rebuild hxcpp --quiet
+
+      - name: Create Compile Cache Directory
+        shell: bash
+        run: mkdir -p ${{ env.HXCPP_COMPILE_CACHE }}
 
       - name: Compile
         run: haxelib run lime build linux -release
@@ -229,7 +243,6 @@ jobs:
         with:
           key: cache-mac-psych-${{ github.sha }}
           path: |
-            .haxelib/
             ${{ env.HXCPP_COMPILE_CACHE }}
             export/release/macos/obj/
           restore-keys: |
@@ -241,6 +254,10 @@ jobs:
           haxelib run hmm setup
           haxelib run hmm install
           haxelib run lime rebuild hxcpp --quiet
+
+      - name: Create Compile Cache Directory
+        shell: bash
+        run: mkdir -p ${{ env.HXCPP_COMPILE_CACHE }}
 
       - name: Compile
         run: haxelib run lime build mac -release
