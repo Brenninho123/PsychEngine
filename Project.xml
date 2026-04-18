@@ -107,6 +107,10 @@
 	<haxelib name="hxCodec" if="VIDEOS_ALLOWED"/>
 	<haxelib name="hxdiscord_rpc" if="DISCORD_ALLOWED"/>
 	<haxelib name="flxanimate"/>
+
+<section if="cpp">
+    <haxelib name="hxvlc" if="desktop || mobile" />
+</section>
 	
 	<!--Psych Mobile stuff needed-->
 	<haxelib name="extension-androidtools" if="android"/>
